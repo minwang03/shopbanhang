@@ -1,17 +1,29 @@
-import Badge from 'react-bootstrap/Badge';
+
+import React from 'react';
 import Button from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Example() {
-  return (
-    <div>
-      <h1>
-        Example heading
-        <Badge bg="secondary" as={Button}>
-          New
-        </Badge>
-      </h1>
-    </div>
-  );
+    return (
+        <>
+          <div className="mb-2">
+            <Button variant="primary" size="lg">
+              Large button
+            </Button>{' '}
+            <Button variant="secondary" size="lg">
+              Large button
+            </Button>
+          </div>
+          <div>
+            <Button variant="primary" size="sm">
+              Small button
+            </Button>{' '}
+            <Button variant="secondary" size="sm">
+              Small button
+            </Button>
+          </div>
+        </>
+      );
 }
 
 export default Example;
