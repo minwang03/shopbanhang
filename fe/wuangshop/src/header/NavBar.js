@@ -33,9 +33,10 @@ function BasicExample() {
           <Nav>
             <Nav.Link
               href="#login"
-              className="border rounded px-3 py-1"
+              className="border rounded px-3 py-1 mt-1 mb-1"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
+              style={{width:'75px'}}
             >
               Login
             </Nav.Link>
@@ -46,7 +47,7 @@ function BasicExample() {
                   boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
                   borderRadius: '0 0 5px 5px',
                   zIndex: 1000,
-                  marginTop: '2%',
+                  marginTop: '2.3%',
                 }}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
