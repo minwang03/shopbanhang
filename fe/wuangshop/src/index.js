@@ -1,11 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
-import Navbar from './header/NavBar.js'
+import { createRoot } from 'react-dom/client';
+import Navbar from './header/NavBar.js';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = createRoot(document.getElementById('root'));
 root.render(
   <>
-    <Navbar/>
+    <Navbar />
   </>
 );
