@@ -1,17 +1,17 @@
 import React from 'react';
 
-const ExampleCarouselImage = ({ text }) => {
+const ExampleCarouselImage = ({ imageUrl, text }) => {
   const imageStyle = {
     width: '100%',
     height: '500px',
-
+    // objectFit: 'cover',
   };
 
   return (
     <img
       className="d-block w-100"
       style={imageStyle}
-      src={`https://via.placeholder.com/400x400?text=${text}`}
+      src={imageUrl}
       alt={text}
     />
   );

@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import ExampleCarouselImage from './ExampleCarouselImage.js';
+import Images1 from './images/Screenshot 2023-10-10 102852.png';
+import Images2 from './images/images.jpg';
+import Images3 from './images/doge-shiba-inu-microsoft-windows-memes-wallpaper-preview.jpg';
 
 function ControlledCarousel() {
   const [index, setIndex] = useState(0);
@@ -9,31 +12,41 @@ function ControlledCarousel() {
     setIndex(selectedIndex);
   };
 
+  const slides = [
+    {
+      imageUrl: Images1,
+      text: 'Slide 1 label',
+      description: 'Description for slide 1.',
+    },
+    {
+      imageUrl: Images2,
+      text: 'Slide 2 label',
+      description: 'Description for slide 2.',
+    },
+    {
+      imageUrl: Images3,
+      text: 'Slide 3 label',
+      description: 'Description for slide 3.',
+    },
+  ];
+
   return (
-    <Carousel activeIndex={index} onSelect={handleSelect}>
-      <Carousel.Item>
-        <ExampleCarouselImage text="1" />
-        <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <ExampleCarouselImage text="2" />
-        <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <ExampleCarouselImage text="3" />
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-        </Carousel.Caption>
-      </Carousel.Item>
+    <Carousel
+      activeIndex={index}
+      onSelect={handleSelect}
+      interval={3000}
+      pause={false} // Set to false to prevent pausing on hover
+      fade // Use fade transition
+    >
+      {slides.map((slide, i) => (
+        <Carousel.Item key={i}>
+          <ExampleCarouselImage text={slide.text} imageUrl={slide.imageUrl} />
+          <Carousel.Caption>
+            <h3>{slide.text}</h3>
+            <p>{slide.description}</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+      ))}
     </Carousel>
   );
 }

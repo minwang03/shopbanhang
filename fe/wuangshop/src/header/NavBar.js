@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import Container from 'react-bootstrap/Container';
-import { Nav } from 'react-bootstrap';
-import Navbar from 'react-bootstrap/Navbar';
+import { Button, Container, Nav, Navbar } from 'react-bootstrap';  
 import SearchBar from './SearchBar';
+import SignUpModal from './SignUpModal.js'; 
 import styled from 'styled-components';
 
 const HoveredNavItem = styled(Nav.Link)`
@@ -32,11 +31,11 @@ const HoveredNavItem = styled(Nav.Link)`
 `;
 
 
-
-
 function BasicExample() {
   const [hoveredNavItem, setHoveredNavItem] = useState(null);
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [showSignUp, setSignUp] = useState(false);
+
   let timeoutId;
 
   const handleMouseEnterNavItem = (index) => {
@@ -56,6 +55,10 @@ function BasicExample() {
     timeoutId = setTimeout(() => {
       setDropdownVisible(false);
     }, 100);
+  };
+
+  const handleSignUpClick = () => {
+      setSignUp(!showSignUp);
   };
 
   return (
@@ -92,24 +95,25 @@ function BasicExample() {
           </Nav>
           <SearchBar />
           <Nav>
-            <Nav.Link
-              href="#signup"
-              className="border rounded px-3 py-1 mt-1 mb-1 "
-              style={{ width: '90px',marginRight: '16px',textAlign: 'center' }}
+            <Button
+              variant="outline-primary"
+              className="border rounded px-3 py-1 mt-1 mb-1"
+              style={{ width: '90px', marginRight: '16px', textAlign: 'center' }}
+              onClick={handleSignUpClick}
             >
               Sign up
-            </Nav.Link>
+            </Button>
           </Nav>
           <Nav>
-            <Nav.Link
-              href="#login"
+            <Button
+              variant="outline-primary"
               className="border rounded px-3 py-1 mt-1 mb-1"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-              style={{ width: '75px',textAlign: 'center' }}
+              style={{ width: '75px', textAlign: 'center' }}
             >
               Login
-            </Nav.Link>
+            </Button>
             {dropdownVisible && (
               <div
                 className="position-absolute bg-white p-2"
@@ -131,7 +135,8 @@ function BasicExample() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-    </Navbar>
+      {showSignUp && <SignUpModal onClose={() => setSignUp(false)} />}
+    </Navbar> 
   );
 }
 
