@@ -1,34 +1,38 @@
-// BasicExample.js
 import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
+import { Nav } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
 import SearchBar from './SearchBar';
 import styled from 'styled-components';
 
 const HoveredNavItem = styled(Nav.Link)`
-position: relative;
-display: inline-block;
-padding: 10px 20px;
-cursor: pointer;
-margin-right: 20px;
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-right: 20px;
+  overflow: hidden;
 
-&::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: -2px;
-  height: 2px;
-  width: 0;
-  background-color: black;
-  transition: width 0.3s ease-in-out;
-}
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background-color: black;
+    transition: transform 0.3s ease-in-out;
+    transform-origin: bottom left;
+    transform: scaleX(0);
+  }
 
-&:hover::after {
-  width: 100%;
-}
+  &:hover::after {
+    transform: scaleX(1);
+  }
 `;
+
+
+
 
 function BasicExample() {
   const [hoveredNavItem, setHoveredNavItem] = useState(null);
@@ -89,11 +93,20 @@ function BasicExample() {
           <SearchBar />
           <Nav>
             <Nav.Link
+              href="#signup"
+              className="border rounded px-3 py-1 mt-1 mb-1 "
+              style={{ width: '90px',marginRight: '16px',textAlign: 'center' }}
+            >
+              Sign up
+            </Nav.Link>
+          </Nav>
+          <Nav>
+            <Nav.Link
               href="#login"
               className="border rounded px-3 py-1 mt-1 mb-1"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-              style={{ width: '75px' }}
+              style={{ width: '75px',textAlign: 'center' }}
             >
               Login
             </Nav.Link>
