@@ -6,13 +6,13 @@ MongoClient.connect(url, (err, client) => {
 
     console.log("Kết nối thành công");
 
-    var dbo = client.db("shopbanhang");
-        var obj = { user: 'quang', password: 'quang' };
-        dbo.collection("user").insertOne(obj, (err, result) => {
-            if (err) throw err;
-            console.log("Thêm Thành Công");
-            console.log(result);
-            client.close();
-        }); 
+    // var dbo = client.db("shopbanhang");
+    //     var obj = { user: 'quang', password: 'quang' };
+    //     dbo.collection("user").insertOne(obj, (err, result) => {
+    //         if (err) throw err;
+    //         console.log("Thêm Thành Công");
+    //         console.log(result);
+    //         client.close();
+    //     }); 
     client.close();
 });
