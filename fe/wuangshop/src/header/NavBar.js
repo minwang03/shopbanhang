@@ -3,6 +3,8 @@ import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import SearchBar from './SearchBar';
 import SignUpModal from './SignUpModal.js'; 
 import styled from 'styled-components';
+import { CSSTransition } from 'react-transition-group';
+
 
 const HoveredNavItem = styled(Nav.Link)`
   position: relative;
@@ -29,7 +31,25 @@ const HoveredNavItem = styled(Nav.Link)`
     transform: scaleX(1);
   }
 `;
+const FadeContainer = styled.div`
+  .fade-enter {
+    opacity: 0.01;
+  }
 
+  .fade-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in;
+  }
+
+  .fade-exit {
+    opacity: 1;
+  }
+
+  .fade-exit-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+  }
+`;
 
 function BasicExample() {
   const [hoveredNavItem, setHoveredNavItem] = useState(null);
@@ -105,6 +125,7 @@ function BasicExample() {
             </Button>
           </Nav>
           <Nav>
+          <FadeContainer>
             <Button
               variant="outline-primary"
               className="border rounded px-3 py-1 mt-1 mb-1"
@@ -114,24 +135,30 @@ function BasicExample() {
             >
               Login
             </Button>
-            {dropdownVisible && (
-              <div
-                className="position-absolute bg-white p-2"
-                style={{
-                  boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
-                  borderRadius: '0 0 5px 5px',
-                  zIndex: 1000,
-                  marginTop: '2.3%',
-                }}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+           
+              <CSSTransition
+                in={dropdownVisible}
+                timeout={300}
+                classNames="fade"
+                unmountOnExit
               >
-                <Nav.Link href="">Thông tin cá nhân</Nav.Link>
-                <Nav.Link href="">Thông tin mua hàng</Nav.Link>
-                <Nav.Link href="">Cài đặt</Nav.Link>
-                <Nav.Link href="">Đăng xuất</Nav.Link>
-              </div>
-            )}
+                <div
+                  className="position-absolute bg-white p-2"
+                  style={{
+                    boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
+                    borderRadius: '0 0 5px 5px',
+                    zIndex: 1000,
+                  }}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <Nav.Link href="">Thông tin cá nhân</Nav.Link>
+                  <Nav.Link href="">Thông tin mua hàng</Nav.Link>
+                  <Nav.Link href="">Cài đặt</Nav.Link>
+                  <Nav.Link href="">Đăng xuất</Nav.Link>
+                </div>
+              </CSSTransition>
+            </FadeContainer>
           </Nav>
         </Navbar.Collapse>
       </Container>

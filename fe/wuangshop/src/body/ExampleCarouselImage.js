@@ -3,7 +3,7 @@ import React from 'react';
 const ExampleCarouselImage = ({ imageUrl, text }) => {
   const imageStyle = {
     width: '100%',
-    height: '500px',
+    height: '600px',
     // objectFit: 'cover',
   };
 
