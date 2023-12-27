@@ -11,16 +11,30 @@ function FormExample() {
     setShowModal(false);
   };
 
+
+  
   const [validated, setValidated] = useState(false);
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    setValidated(true);
-  };
+
+ const handleSubmit = (event) => {
+  const form = event.currentTarget;
+  const password = form.elements['validationCustomPassword'].value;
+  const confirmPasswordInput = form.elements['validationCustomConfirmPassword'];
+  const confirmPassword = confirmPasswordInput.value;
+
+  if (form.checkValidity() === false || password !== confirmPassword) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    // Đặt lớp 'is-invalid' cho trường mật khẩu xác nhận
+    confirmPasswordInput.classList.add('is-invalid');
+  } else {
+    // Xóa lớp 'is-invalid' nếu mật khẩu khớp
+    confirmPasswordInput.classList.remove('is-invalid');
+  }
+
+  setValidated(true);
+};
   
 
   return (
@@ -50,13 +64,12 @@ function FormExample() {
          
           />
           <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-        </Form.Group>
-       
+        </Form.Group>    
       </Row>
 
       <Row className="mb-3">
          <Form.Group as={Col} md="8" controlId="validationCustomUsername">
-          <Form.Label>Username</Form.Label>
+          <Form.Label>User name</Form.Label>
           <InputGroup hasValidation>
             <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
             <Form.Control
@@ -71,6 +84,40 @@ function FormExample() {
           </InputGroup>
         </Form.Group>
       </Row>
+      <Row className="mb-3">
+
+      <Form.Group as={Col} md="6" controlId="validationCustomPassword">
+        <Form.Label>Password</Form.Label>
+        <InputGroup hasValidation>
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            aria-describedby="inputGroupPrepend"
+            required
+          />
+          <Form.Control.Feedback type="invalid">
+            Please choose a valid password.
+          </Form.Control.Feedback>
+        </InputGroup>
+      </Form.Group>
+    </Row>
+
+    <Row className="mb-3">
+      <Form.Group as={Col} md="6" controlId="validationCustomConfirmPassword">
+        <Form.Label>Confirm Password</Form.Label>
+        <InputGroup hasValidation>
+          <Form.Control
+            type="password"
+            placeholder="Confirm Password"
+            aria-describedby="inputGroupPrepend"
+            required
+          />
+          <Form.Control.Feedback type="invalid">
+            Passwords must match.
+          </Form.Control.Feedback>
+        </InputGroup>
+      </Form.Group>
+    </Row>
 
       <Row className="mb-3">
         <Form.Group as={Col} md="6" controlId="validationCustom03">
