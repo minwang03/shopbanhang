@@ -18,26 +18,25 @@ const RegistrationForm = () => {
     });
   };
 
-  // Function to handle form submission
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post('http://localhost:3001/client/dang-ky/register', formData, {
+      const response = await axios.post('http://localhost:3000/client/dang-ky/register', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
-      if (response.status === 200) {
+      if (response.status === 201) { 
         console.log('User registered successfully:', response.data);
       } else {
-        console.error('Failed to register user');
+        console.error('Failed to register user. Status:', response.status);
       }
     } catch (error) {
-      console.error('Error during registration:', error);
+        console.error('Error details:', error.response.data);
     }
   };
+
 
   return (
     <Form onSubmit={handleSubmit}>
