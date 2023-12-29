@@ -1,10 +1,10 @@
+// BasicExample component
 import React, { useState } from 'react';
-import { Button, Container, Nav, Navbar } from 'react-bootstrap';  
+import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import SearchBar from './SearchBar';
-import SignUpModal from './SignUpModal.js'; 
+import SignUpModal from './SignUpModal.js';
 import styled from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
-
 
 const HoveredNavItem = styled(Nav.Link)`
   position: relative;
@@ -31,6 +31,7 @@ const HoveredNavItem = styled(Nav.Link)`
     transform: scaleX(1);
   }
 `;
+
 const FadeContainer = styled.div`
   .fade-enter {
     opacity: 0.01;
@@ -54,7 +55,7 @@ const FadeContainer = styled.div`
 function BasicExample() {
   const [hoveredNavItem, setHoveredNavItem] = useState(null);
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [showSignUp, setSignUp] = useState(false);
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
 
   let timeoutId;
 
@@ -78,7 +79,7 @@ function BasicExample() {
   };
 
   const handleSignUpClick = () => {
-      setSignUp(!showSignUp);
+    setShowSignUpModal(!showSignUpModal);
   };
 
   return (
@@ -125,17 +126,17 @@ function BasicExample() {
             </Button>
           </Nav>
           <Nav>
-          <FadeContainer>
-            <Button
-              variant="outline-primary"
-              className="border rounded px-3 py-1 mt-1 mb-1"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              style={{ width: '75px', textAlign: 'center' }}
-            >
-              Login
-            </Button>
-           
+            <FadeContainer>
+              <Button
+                variant="outline-primary"
+                className="border rounded px-3 py-1 mt-1 mb-1"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                style={{ width: '75px', textAlign: 'center' }}
+              >
+                Login
+              </Button>
+
               <CSSTransition
                 in={dropdownVisible}
                 timeout={300}
@@ -162,8 +163,8 @@ function BasicExample() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      {showSignUp && <SignUpModal onClose={() => setSignUp(false)} />}
-    </Navbar> 
+      {showSignUpModal && <SignUpModal onClose={() => setShowSignUpModal(false)} />}
+    </Navbar>
   );
 }
 

@@ -1,150 +1,87 @@
 import React, { useState } from 'react';
-import { Button, Modal, Col, Form, InputGroup, Row } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
+import axios from 'axios';
 
+function SignUpModal({ onClose }) {
+  const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+  const [validationErrors, setValidationErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
-function FormExample() {
-  
-  const [showModal, setShowModal] = useState(true); // Set to true to open the modal initially
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleCloseModal = () =>{
-    setValidated(false);
-    setShowModal(false);
+  const handleCloseModal = () => {
+    onClose();
+    setValidationErrors({});
+    setFormData({ username: '', email: '', password: '' });
   };
 
-
-  
-  const [validated, setValidated] = useState(false);
-
-
- const handleSubmit = (event) => {
-  const form = event.currentTarget;
-  const password = form.elements['validationCustomPassword'].value;
-  const confirmPasswordInput = form.elements['validationCustomConfirmPassword'];
-  const confirmPassword = confirmPasswordInput.value;
-
-  if (form.checkValidity() === false || password !== confirmPassword) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    // Đặt lớp 'is-invalid' cho trường mật khẩu xác nhận
-    confirmPasswordInput.classList.add('is-invalid');
-  } else {
-    // Xóa lớp 'is-invalid' nếu mật khẩu khớp
-    confirmPasswordInput.classList.remove('is-invalid');
-  }
-
-  setValidated(true);
-};
-  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const errors = {};
+      if (!formData.email.includes('@')) errors.email = 'Invalid email format';
+      if (formData.password.length < 6) errors.password = 'Password must be at least 6 characters long';
+      if (Object.keys(errors).length > 0) {
+        setValidationErrors(errors);
+        return;
+      }
+      const response = await axios.post('http://localhost:3000/client/dang-ky/register', formData, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (response.status === 201) {
+        window.alert('User registered successfully');
+        handleCloseModal();
+       }
+      
+      else {
+        console.error('Failed to register user. Status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error details:', error.response.data);
+      window.alert('Username or email already exists');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <Modal show={showModal} onHide={handleCloseModal}>
-      <Modal.Header closeButton>
-        <Modal.Title>Sign Up</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
-      <Row className="mb-3">
-        <Form.Group as={Col} md="4" controlId="validationCustom01">
-          <Form.Label>First name</Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="First name"
-          
-          />
-          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group as={Col} md="4" controlId="validationCustom02">
-          <Form.Label>Last name</Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="Last name"
-         
-          />
-          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-        </Form.Group>    
-      </Row>
+    <>
+      <Modal show={true} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Register</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formUsername">
+              <Form.Label>Username</Form.Label>
+              <Form.Control type="text" name="username" value={formData.username} onChange={handleChange} required />
+            </Form.Group>
 
-      <Row className="mb-3">
-         <Form.Group as={Col} md="8" controlId="validationCustomUsername">
-          <Form.Label>User name</Form.Label>
-          <InputGroup hasValidation>
-            <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
-            <Form.Control
-              type="text"
-              placeholder="Username"
-              aria-describedby="inputGroupPrepend"
-              required
-            />
-            <Form.Control.Feedback type="invalid">
-              Please choose a username.
-            </Form.Control.Feedback>
-          </InputGroup>
-        </Form.Group>
-      </Row>
-      <Row className="mb-3">
+            <Form.Group controlId="formEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} required />
+            </Form.Group>
 
-      <Form.Group as={Col} md="6" controlId="validationCustomPassword">
-        <Form.Label>Password</Form.Label>
-        <InputGroup hasValidation>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            aria-describedby="inputGroupPrepend"
-            required
-          />
-          <Form.Control.Feedback type="invalid">
-            Please choose a valid password.
-          </Form.Control.Feedback>
-        </InputGroup>
-      </Form.Group>
-    </Row>
+            <Form.Group controlId="formPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" name="password" value={formData.password} onChange={handleChange} required />
+            </Form.Group>
 
-    <Row className="mb-3">
-      <Form.Group as={Col} md="6" controlId="validationCustomConfirmPassword">
-        <Form.Label>Confirm Password</Form.Label>
-        <InputGroup hasValidation>
-          <Form.Control
-            type="password"
-            placeholder="Confirm Password"
-            aria-describedby="inputGroupPrepend"
-            required
-          />
-          <Form.Control.Feedback type="invalid">
-            Passwords must match.
-          </Form.Control.Feedback>
-        </InputGroup>
-      </Form.Group>
-    </Row>
+            {Object.keys(validationErrors).map((fieldName) => (
+              <div key={fieldName} style={{ color: 'red' }}>
+                {validationErrors[fieldName]}
+              </div>
+            ))}
 
-      <Row className="mb-3">
-        <Form.Group as={Col} md="6" controlId="validationCustom03">
-          <Form.Label>Phone number</Form.Label>
-          <Form.Control type="text" placeholder="Phone number" required />
-          <Form.Control.Feedback type="invalid">
-           Vui long nhap so dien thoai
-          </Form.Control.Feedback>
-        </Form.Group>
-
-      </Row>
-      <Form.Group className="mb-3">
-        <Form.Check
-          required
-          label="Agree to terms and conditions"
-          feedback="You must agree before submitting."
-          feedbackType="invalid"
-        />
-      </Form.Group>
-      <Modal.Footer>
-      <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
-      <Button type="submit">Submit form</Button>
-      </Modal.Footer>
-    </Form>
-      </Modal.Body>
-    </Modal>
+            <Button variant="primary" type="submit" disabled={loading}>
+              {loading ? 'Registering...' : 'Register'}
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 }
 
-export default FormExample;
+export default SignUpModal;
