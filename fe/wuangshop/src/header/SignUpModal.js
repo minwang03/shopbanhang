@@ -3,7 +3,7 @@ import { CSSTransition } from 'react-transition-group';
 import axios from 'axios';
 import './css/SignUpModal.css';
 
-function SignUpModal({ onClose, setModalShown, modalShown }) {
+function SignUpModal({ onClose, modalShown }) {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
   const [validationErrors, setValidationErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -77,8 +77,8 @@ function SignUpModal({ onClose, setModalShown, modalShown }) {
                     {validationErrors[fieldName]}
                   </div>
                 ))}
-                <button type="submit" className="btn btn-primary" disabled={loading}>
-                  {loading ? 'Registering...' : 'Register'}
+                <button type="submit" className="btn btn-primary " disabled={loading} style={{marginTop: 20,}}>
+                  {loading ? 'Registering...' : 'submit'}
                 </button>
               </form>
             </div>
