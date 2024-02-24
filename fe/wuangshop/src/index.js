@@ -7,7 +7,7 @@ import Body1 from './body/Carousels.js'
 const root = createRoot(document.getElementById('root'));
 root.render(
   <>
-    <Navbar />
+    <Navbar/>
     <Body1/>
   </>
 );

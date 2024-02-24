@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { CSSTransition } from 'react-transition-group';
 import axios from 'axios';
+import './css/SignUpModal.css';
 
-function SignUpModal({ onClose }) {
+function SignUpModal({ onClose, setModalShown, modalShown }) {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
   const [validationErrors, setValidationErrors] = useState({});
   const [loading, setLoading] = useState(false);
+
+ 
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -30,10 +33,9 @@ function SignUpModal({ onClose }) {
         headers: { 'Content-Type': 'application/json' },
       });
       if (response.status === 201) {
-        window.alert('User registered successfully');
+        window.alert('Tao tai khoan thanh cong!');
         handleCloseModal();
-       }
-      
+      }
       else {
         console.error('Failed to register user. Status:', response.status);
       }
@@ -46,41 +48,44 @@ function SignUpModal({ onClose }) {
   };
 
   return (
-    <>
-      <Modal show={true} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Register</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formUsername">
-              <Form.Label>Username</Form.Label>
-              <Form.Control type="text" name="username" value={formData.username} onChange={handleChange} required />
-            </Form.Group>
-
-            <Form.Group controlId="formEmail">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} required />
-            </Form.Group>
-
-            <Form.Group controlId="formPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" name="password" value={formData.password} onChange={handleChange} required />
-            </Form.Group>
-
-            {Object.keys(validationErrors).map((fieldName) => (
-              <div key={fieldName} style={{ color: 'red' }}>
-                {validationErrors[fieldName]}
-              </div>
-            ))}
-
-            <Button variant="primary" type="submit" disabled={loading}>
-              {loading ? 'Registering...' : 'Register'}
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    </>
+    <CSSTransition in={modalShown} timeout={300} classNames="modal" unmountOnExit>
+      <div className="modal">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Register</h5>
+              <button type="button" className="close" onClick={handleCloseModal}>
+                <span>&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="username">Username</label>
+                  <input type="text" className="form-control" id="username" name="username" value={formData.username} onChange={handleChange} required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email</label>
+                  <input type="email" className="form-control" id="email" name="email" value={formData.email} onChange={handleChange} required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="password">Password</label>
+                  <input type="password" className="form-control" id="password" name="password" value={formData.password} onChange={handleChange} required />
+                </div>
+                {Object.keys(validationErrors).map((fieldName) => (
+                  <div key={fieldName} style={{ color: 'red' }}>
+                    {validationErrors[fieldName]}
+                  </div>
+                ))}
+                <button type="submit" className="btn btn-primary" disabled={loading}>
+                  {loading ? 'Registering...' : 'Register'}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </CSSTransition>
   );
 }
 

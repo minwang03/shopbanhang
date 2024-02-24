@@ -1,4 +1,3 @@
-// BasicExample component
 import React, { useState } from 'react';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import SearchBar from './SearchBar';
@@ -52,10 +51,10 @@ const FadeContainer = styled.div`
   }
 `;
 
-function BasicExample() {
+function CustomNavbar() {
   const [hoveredNavItem, setHoveredNavItem] = useState(null);
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [showSignUpModal, setShowSignUpModal] = useState(false);
+  const [modalShown, setModalShown] = useState(false);
 
   let timeoutId;
 
@@ -78,14 +77,12 @@ function BasicExample() {
     }, 100);
   };
 
-  const handleSignUpClick = () => {
-    setShowSignUpModal(!showSignUpModal);
-  };
+  
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand href="">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand href=""></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
@@ -103,7 +100,7 @@ function BasicExample() {
               onMouseLeave={handleMouseLeaveNavItem}
               className={hoveredNavItem === 2 ? 'hovered-nav-item' : ''}
             >
-              Home1
+              Home 1
             </HoveredNavItem>
             <HoveredNavItem
               href=""
@@ -111,7 +108,7 @@ function BasicExample() {
               onMouseLeave={handleMouseLeaveNavItem}
               className={hoveredNavItem === 3 ? 'hovered-nav-item' : ''}
             >
-              Home2
+              Home 2
             </HoveredNavItem>
           </Nav>
           <SearchBar />
@@ -120,7 +117,7 @@ function BasicExample() {
               variant="outline-primary"
               className="border rounded px-3 py-1 mt-1 mb-1"
               style={{ width: '90px', marginRight: '16px', textAlign: 'center' }}
-              onClick={handleSignUpClick}
+              onClick={() => setModalShown(true)}
             >
               Sign up
             </Button>
@@ -163,9 +160,9 @@ function BasicExample() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      {showSignUpModal && <SignUpModal onClose={() => setShowSignUpModal(false)} />}
+      <SignUpModal onClose={() => setModalShown(false)} setModalShown={setModalShown} modalShown={modalShown} />
     </Navbar>
   );
 }
 
-export default BasicExample;
+export default CustomNavbar;
